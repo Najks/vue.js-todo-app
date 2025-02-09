@@ -1,5 +1,6 @@
-flask
-flask-cors
-flask-sqlalchemy
-werkzeug
+Flask
+Flask-SQLAlchemy
+Flask-Cors
+Werkzeug
+gunicorn
 datetime

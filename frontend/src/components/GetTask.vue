@@ -54,14 +54,12 @@ import axios from "axios";
 import TaskItem from "@/components/TaskItem.vue";
 import { ref, onMounted, inject, computed, watch } from "vue";
 import { format, subDays, addDays } from "date-fns";
-import Sidemenu from "./Sidemenu.vue";
 import Toast from "./Toast.vue";
 
 export default {
   name: "GetTask",
   components: {
     TaskItem,
-    Sidemenu,
   },
   setup() {
     const tasks = ref([]);

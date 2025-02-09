@@ -1,10 +1,15 @@
-FROM python:3.9
+# Uporabi uradno Python sliko
+FROM python:3.10
 
+# Nastavi delovni imenik
 WORKDIR /app
 
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+# Kopiraj datoteke v kontejner
+COPY requirements.txt requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
+# Kopiraj kodo aplikacije
 COPY . .
 
-CMD ["python", "server.py"]
+# Zaženi Flask aplikacijo
+CMD ["gunicorn", "-b", "0.0.0.0:5000", "server:app"]
