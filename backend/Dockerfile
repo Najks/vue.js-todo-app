@@ -1,15 +1,14 @@
-# Uporabi uradno Python sliko
 FROM python:3.10
 
-# Nastavi delovni imenik
 WORKDIR /app
 
-# Kopiraj datoteke v kontejner
 COPY requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Kopiraj kodo aplikacije
-COPY . .
+COPY . . 
 
-# Zaženi Flask aplikacijo
+RUN mkdir -p /data && chmod 777 /data
+
+ENV DATABASE_PATH=/app/database.db
+
 CMD ["gunicorn", "-b", "0.0.0.0:5000", "server:app"]

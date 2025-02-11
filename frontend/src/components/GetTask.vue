@@ -1,6 +1,6 @@
 <template>
 
-  
+
 
   <div class="task-list">
     <h3>📝 Moja opravila</h3>
@@ -8,9 +8,9 @@
     <!-- 📅 Navigacija med dnevi -->
     <div class="date-navigation">
       <button @click="prevDay" title="Prejšnji dan">
-<i>
-  ⬅️
-</i>      </button>
+        <i>
+          ⬅️
+        </i> </button>
       <span>{{ formattedDate }}</span>
       <button @click="nextDay" title="Naslednji dan">
         <i>➡️</i>
@@ -21,8 +21,7 @@
     </div>
 
     <!-- 🔎 Iskalnik -->
-    <input type="text" v-model="searchQuery" 
-           placeholder="Išči po opravilih..." class="search-box"/>
+    <input type="text" v-model="searchQuery" placeholder="Išči po opravilih..." class="search-box" />
 
     <!-- 📌 Filtri -->
     <div class="filters">
@@ -34,14 +33,8 @@
     <!-- 🔹 Prikaz opravil -->
     <transition-group name="fade">
       <div v-for="task in filteredTasks" :key="task.id" class="task-card" :class="{ completed: task.done }">
-        <TaskItem
-          :taskText="task.task"
-          :taskId="task.id"
-          :taskDone="task.done"
-          :taskDate="task.date"
-          @taskUpdated="updateTask"
-          @taskDeleted="deleteTask"
-        />
+        <TaskItem :taskText="task.task" :taskId="task.id" :taskDone="task.done" :taskDate="task.date"
+          @taskUpdated="updateTask" @taskDeleted="deleteTask" />
       </div>
     </transition-group>
 
@@ -72,15 +65,16 @@ export default {
     const selectedDate = ref(new Date());
     const formattedDate = computed(() => format(selectedDate.value, "yyyy-MM-dd"));
 
+    const API_URL = process.env.VUE_APP_API_URL;
     async function getTasks() {
       if (!user_id.value) return;
 
       try {
         console.log(`📌 Pridobivam opravila za datum: ${formattedDate.value}`);
-        const response = await axios.get("http://localhost:5000/api/todos", {
-          params: { 
-            user_id: user_id.value, 
-            start_date: formattedDate.value, 
+        const response = await axios.get(`${API_URL}/api/todos`, {
+          params: {
+            user_id: user_id.value,
+            start_date: formattedDate.value,
             end_date: formattedDate.value
           },
         });
@@ -100,18 +94,18 @@ export default {
       }
 
       if (!taskText || !user_id.value) return;
-    
-      try{
+
+      try {
         const payload = {
           task: taskText,
           done: false,
           user_id: user_id.value,
           date: formattedDate.value,
         }
-        const response = await axios.post("http://localhost:5000/api/todos", payload);
+        const response = await axios.post("${API_URL}/api/todos", payload);
         console.log("✅ Opravilo uspešno dodano!", response.data);
         tasks.value.push(response.data);
-      
+
       } catch (error) {
         console.error("❌ Napaka pri dodajanju opravila:", error);
       }
@@ -257,6 +251,7 @@ export default {
 .fade-leave-active {
   transition: opacity 0.5s;
 }
+
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;

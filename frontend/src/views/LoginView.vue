@@ -28,6 +28,8 @@ export default {
     const message = ref("");
     const router = useRouter();
     const login = inject("login");
+    const API_URL = process.env.VUE_APP_API_URL;
+
 
     async function loginUser() {
       if (!username.value || !password.value) {
@@ -36,7 +38,7 @@ export default {
       }
 
       try {
-        const response = await axios.post("http://127.0.0.1:5000/auth/login", {
+        const response = await axios.post(`${API_URL}/auth/login`, {
           username: username.value,
           password: password.value,
         });

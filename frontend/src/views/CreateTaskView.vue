@@ -27,6 +27,8 @@ export default {
     const router = useRouter();
     const user_id = inject("user_id");
     const task_date = ref(format(new Date(), "yyyy-MM-dd"));
+    const API_URL = process.env.VUE_APP_API_URL;
+    console.log("📌 API_URL:", API_URL);
 
 
     async function createTask() {
@@ -48,7 +50,7 @@ export default {
         console.log("📌 JSON:", JSON.stringify(payload));
 
         const response = await axios.post(
-          "http://127.0.0.1:5000/api/todos",
+          `${API_URL}/api/todos`,
           payload
         );
 

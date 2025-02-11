@@ -40,6 +40,8 @@ export default {
     const originalText = ref(props.taskText);
     const editInput = ref(null);
     const showToast = inject("showToast");
+    const API_URL = process.env.VUE_APP_API_URL;
+    console.log("📌 API_URL:", API_URL);
 
     function startEditing() {
       isEditing.value = true;
@@ -55,7 +57,7 @@ export default {
       }
 
       try {
-        await axios.put(`http://localhost:5000/api/todos/${props.taskId}`, {
+        await axios.put(`${API_URL}/api/todos/${props.taskId}`, {
           task: editableText.value,
         });
 
@@ -74,7 +76,7 @@ export default {
 
     async function markAsDone() {
       try {
-        await axios.put(`http://localhost:5000/api/todos/${props.taskId}`, {
+        await axios.put(`${API_URL}/api/todos/${props.taskId}`, {
           done: true,
         });
         emit("taskUpdated", props.taskId, props.taskText, true);
@@ -86,7 +88,7 @@ export default {
 
     async function undoTask() {
       try {
-        await axios.put(`http://localhost:5000/api/todos/${props.taskId}`, {
+        await axios.put(`${API_URL}/api/todos/${props.taskId}`, {
           done: false,
         });
         emit("taskUpdated", props.taskId, props.taskText, false);
@@ -98,7 +100,7 @@ export default {
 
     async function deleteTask() {
       try {
-        await axios.delete(`http://localhost:5000/api/todos/${props.taskId}`);
+        await axios.delete(`${API_URL}/api/todos/${props.taskId}`);
         emit("taskDeleted", props.taskId);
         showToast("🗑 Opravilo izbrisano!");
       } catch (error) {

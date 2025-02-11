@@ -30,8 +30,10 @@ export default {
   methods: {
     async registerUser() {
       try {
+        const API_URL = process.env.VUE_APP_API_URL;
+        console.log("📌 API_URL:", API_URL);
         const response = await axios.post(
-          "http://127.0.0.1:5000/auth/register",
+          `${API_URL}/auth/register`,
           {
             username: this.username,
             password: this.password,
